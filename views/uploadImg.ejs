@@ -1,0 +1,53 @@
+<%-include('header')%>
+<style>
+    .card-box{
+        transform: translateX(260px);
+        background-color: #ffffff;
+    }
+    .checkbox-pink input[type=checkbox]:checked+label::before {
+        background-color: #6c757d;
+        border-color: #6c757d;
+    }
+    
+    .breadcrumb-item.active {
+        color: #00acc1;
+    }
+</style>
+            <div class="content-page">
+                <div class="content">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="page-title-box">
+                                    <div class="page-title-right">
+                                        <ol class="breadcrumb m-0">
+                                            <li class="breadcrumb-item"><a href="/admin/dashboard">Menu</a></li>
+                                            <li class="breadcrumb-item active">Add Category</li>
+                                        </ol>
+                                    </div>
+                                    <h4 class="page-title">Add Category</h4>
+                                </div>
+                            </div>
+                        </div>     
+                        <div class="row">
+                            <div class="col-lg-7">
+                                    <form action="/admin/product/editImg" method="post" enctype="multipart/form-data">
+                                        <input type="hidden" name="id" value="<%=id%>">
+                                        <input type="hidden" name="i" value="<%=i%>">
+                                        <input type="hidden" name="img" value="<%=img%>">
+                                        <div class="card-box">
+                                            <div class="form-group mb-1">
+                                                <label for="image" style="display: block;">Upload Product Image</label>
+                                                <input type="file" name="multiImage">
+                                            </div>
+                                        </div>
+                                        <div class="text-center mb-3" style="transform: translateX(260px);">
+                                            <button type="button" class="btn w-sm btn-danger waves-effect">Cancel</button>
+                                            <button type="submit" class="btn w-sm btn-success waves-effect waves-light">Update Image</button>
+                                        </div>
+                                    </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+<%-include('footer')%>

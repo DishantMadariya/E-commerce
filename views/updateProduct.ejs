@@ -1,0 +1,191 @@
+<%-include('header')%>
+<style>
+    .card-box{
+        transform: translateX(260px);
+        background-color: #ffffff;
+    }
+    .red input[type=checkbox]:checked+label::before{
+        background-color: red !important;
+        border-color: red !important;
+    }
+    .yellow input[type=checkbox]:checked+label::before{
+        background-color: yellow !important;
+        border-color: yellow !important;
+    }
+    .blue input[type=checkbox]:checked+label::before{
+        background-color: blue !important;
+        border-color: blue !important;
+    }
+    .pink input[type=checkbox]:checked+label::before{
+        background-color: pink !important;
+        border-color:pink !important ;
+    }
+    .black input[type=checkbox]:checked+label::before{
+        background-color: black !important;
+        border-color: black !important;
+    }
+    .breadcrumb-item.active {
+        color: #00acc1;
+    }
+</style>
+            <div class="content-page">
+                <div class="content">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="page-title-box">
+                                    <div class="page-title-right">
+                                        <ol class="breadcrumb m-0">
+                                            <li class="breadcrumb-item"><a href="/admin/product/">Menu</a></li>
+                                            <li class="breadcrumb-item active">Add Product</li>
+                                        </ol>
+                                    </div>
+                                    <h4 class="page-title">Add Brand</h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-7">
+                                    <form action="/admin/product/editProduct" method="post" enctype="multipart/form-data">
+                                        <input type="hidden" name="EditId" value="<%=PrOduct.id%>">
+                                        <div class="card-box">
+                                            <div class="form-group mb-3">
+                                                <label for="product-category">Category<span class="text-danger">*</span></label>
+                                                <select class="form-control select2" name="category" id="categoryId" onchange="getSubCate()">
+                                                    <option>Select</option>
+                                                    <% cate.map((v,i)=>{%>
+                                                    <option value="<%=v.id%>" <%if(v.id ==PrOduct.category ){%> <%='selected'%> <%}%> ><%=v.cateName%></option>
+                                                    <%})%>
+                                                </select>
+                                            </div>
+
+                                            <div class="form-group mb-3">
+                                                <label for="product-category">Sub Category<span class="text-danger">*</span></label>
+                                                <select class="form-control select2" name="subcategory" id="subcategoryId" onchange="getExCate()">
+                                                    <option>Select</option>
+                                                    <% subcate.map((v,i)=>{%>
+                                                    <option value="<%=v.id%>" <%if(v.id ==PrOduct.subcategory ){%> <%='selected'%> <%}%> ><%=v.scateName%></option>
+                                                    <%})%>
+                                                </select>
+                                            </div>
+
+                                            <div class="form-group mb-3">
+                                                <label for="product-category">Extra Category<span class="text-danger">*</span></label>
+                                                <select class="form-control select2" name="extracategory" id="extracateId" onchange="getBrand()">
+                                                    <option>Select</option>
+                                                    <% extracate.map((v,i)=>{%>
+                                                    <option value="<%=v.id%>" <%if(v.id ==PrOduct.extracategory ){%> <%='selected'%> <%}%> ><%=v.ecateName%></option>
+                                                    <%})%>
+                                                </select>
+                                            </div>
+
+                                            <div class="form-group mb-3">
+                                                <label for="product-category">Brand<span class="text-danger">*</span></label>
+                                                <select class="form-control select2" name="brandname" id="brandId" onchange="getType()">
+                                                    <option>Select</option>
+                                                    <% brand.map((v,i)=>{%>
+                                                    <option value="<%=v.id%>" <%if(v.id ==PrOduct.brandname ){%> <%='selected'%> <%}%> ><%=v.brandname%></option>
+                                                    <%})%>
+                                                </select>
+                                            </div>
+
+                                            <div class="form-group mb-3">
+                                                <label for="product-category">Type<span class="text-danger">*</span></label>
+                                                <select class="form-control select2" name="typename" id="typeId">
+                                                    <option>Select</option>
+                                                    <% type.map((v,i)=>{%>
+                                                    <option value="<%=v.id%>" <%if(v.id ==PrOduct.typename ){%> <%='selected'%> <%}%> ><%=v.typeName%></option>
+                                                    <%})%>
+                                                </select>
+                                            </div>
+
+                                            <div class="form-group mb-3">
+                                                <label for="product-name">Product Title <span class="text-danger">*</span></label>
+                                                <input type="text" id="product-name" value="<%=PrOduct.title%>" name="title" class="form-control" placeholder="e.g : Full Sleave">
+                                            </div>
+
+                                            <div class="form-group mb-3">
+                                                <label for="product-name">Product Price <span class="text-danger">*</span></label>
+                                                <input type="text" id="product-name" value="<%=PrOduct.price%>" name="price" class="form-control" placeholder="e.g : ₹ 999">
+                                            </div>
+
+                                            <div class="form-group mb-3">
+                                                <label for="product-name">Old Price <span class="text-danger">*</span></label>
+                                                <input type="text" id="product-name" value="<%=PrOduct.oldprice%>" name="oldprice" class="form-control" placeholder="e.g : ₹ 1999">
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label>Color (2 minimum):</label>
+                                                <div style="display: flex;">
+                                                    <div class="checkbox checkbox-pink red mb-1" >
+                                                        <input type="checkbox" name="color[]" id="hobby1"  value="Red" data-parsley-mincheck="4" <%if(PrOduct.color.includes('Red')){%> <%='checked'%> <%}%> >
+                                                        <label for="hobby1"> Red </label>
+                                                    </div>
+                                                    <div class="checkbox checkbox-pink yellow mb-1" style="margin-left: 10px;"  >
+                                                        <input type="checkbox" name="color[]" id="hobby2"  value="Yellow" <%if(PrOduct.color.includes('Yellow')){%> <%='checked'%> <%}%> >
+                                                        <label for="hobby2" > Yellow </label>
+                                                    </div>
+                                                    <div class="checkbox checkbox-pink blue mb-1" style="margin-left: 10px;">
+                                                        <input type="checkbox" name="color[]" id="hobby3"  value="Blue" <%if(PrOduct.color.includes('Blue')){%> <%='checked'%> <%}%> >
+                                                        <label for="hobby3" > Blue </label>
+                                                    </div>
+                                                    <div class="checkbox checkbox-pink pink" style="margin-left: 10px;">
+                                                        <input type="checkbox" name="color[]" id="hobby4"  value="Pink" <%if(PrOduct.color.includes('Pink')){%> <%='checked'%> <%}%> >
+                                                        <label for="hobby4" > Pink </label>
+                                                    </div>
+                                                    <div class="checkbox checkbox-pink black" style="margin-left: 10px;">
+                                                        <input type="checkbox" name="color[]" id="hobby5"  value="Black" <%if(PrOduct.color.includes('Black')){%> <%='checked'%> <%}%> >
+                                                        <label for="hobby5" > Black </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group mb-3">
+                                                <label class="mb-2">Size <span class="text-danger">*</span></label>
+                                                <br/>
+                                                <div class="radio form-check-inline">
+                                                    <input type="radio" id="inlineRadio1" value="28" name="size" <%if(PrOduct.size == '28'){%> <%='checked'%> <%}%> >
+                                                    <label for="inlineRadio1"> 28 </label>
+                                                </div>
+                                                <div class="radio form-check-inline">
+                                                    <input type="radio" id="inlineRadio2" value="30" name="size" <%if(PrOduct.size == '30'){%> <%='checked'%> <%}%> >
+                                                    <label for="inlineRadio2"> 30 </label>
+                                                </div>
+                                                <div class="radio form-check-inline">
+                                                    <input type="radio" id="inlineRadio3" value="32" name="size" <%if(PrOduct.size == '32'){%> <%='checked'%> <%}%> >
+                                                    <label for="inlineRadio3"> 32 </label>
+                                                </div>
+                                                <div class="radio form-check-inline">
+                                                    <input type="radio" id="inlineRadio4" value="34" name="size" <%if(PrOduct.size == '34'){%> <%='checked'%> <%}%> >
+                                                    <label for="inlineRadio4"> 34 </label>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label>Description</label>
+                                                <textarea class="form-control" rows="3" name="description" placeholder="e.g : Water Proof"><%=PrOduct.description%></textarea>
+                                            </div>
+
+                                            <div class="form-group mb-1">
+                                                <label for="image" style="display: block;">Upload Product Image</label>
+                                                <input type="file" name="productImage">
+                                                <img src="<%=PrOduct.productImage%>" width="80px" height="80px" alt="">
+                                            </div>
+                                            <div class="fallback ">
+                                                <label for="image" style="display: block;">Upload Multi Images</label>
+                                                <input name="multiImage" type="file" multiple max="5"/>
+                                                <% for(var i=0; i<PrOduct.multiImage.length; i++){%>
+                                                    <img src="<%=PrOduct.multiImage[i]%>" width="80px" height="80px" alt="">
+                                                <%}%>
+                                            </div>
+                                        </div>
+                                        <div class="text-center mb-3" style="transform: translateX(260px);">
+                                            <button type="button" class="btn w-sm btn-danger waves-effect">Cancel</button>
+                                            <button type="submit" class="btn w-sm btn-success waves-effect waves-light">Save</button>
+                                        </div>
+                                    </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+<%-include('footer')%>

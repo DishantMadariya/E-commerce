@@ -1,0 +1,56 @@
+<%-include('header')%>
+
+            <!-- ============================================================== -->
+            <!-- Start Page Content here -->
+            <!-- ============================================================== -->
+<style>
+    .card-box{
+        transform: translateX(260px);
+        background-color: #ffffff;
+    }
+    .checkbox-pink input[type=checkbox]:checked+label::before {
+        background-color: #6c757d;
+        border-color: #6c757d;
+    }
+    
+    .breadcrumb-item.active {
+        color: #00acc1;
+    }
+</style>
+            <div class="content-page">
+                <div class="content">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="page-title-box">
+                                    <div class="page-title-right">
+                                        <ol class="breadcrumb m-0">
+                                            <li class="breadcrumb-item"><a href="/admin/category/viewCategory">Category</a></li>
+                                            <li class="breadcrumb-item active">Edit Category</li>
+                                        </ol>
+                                    </div>
+                                    <h4 class="page-title">Edit Category</h4>
+                                </div>
+                            </div>
+                        </div>     
+                        <div class="row">
+                            <div class="col-lg-7">
+                                <form action="/admin/category/editCategory" method="post">
+                                    <input type="hidden" name="EditId" value="<%=catedata.id%>">
+                                    <div class="card-box">
+                                        <div class="form-group mb-3">
+                                            <label for="product-name">Category Name <span class="text-danger">*</span></label>
+                                            <input type="text" id="product-name" name="cateName" class="form-control" value="<%=catedata.cateName%>" placeholder="e.g : Electronics">
+                                        </div>
+                                    </div>
+                                    <div class="text-center mb-3" style="transform: translateX(260px);">
+                                        <button type="button" class="btn w-sm btn-danger waves-effect">Cancel</button>
+                                        <button type="submit" class="btn w-sm btn-success waves-effect waves-light">Edit</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+
+<%-include('footer')%>

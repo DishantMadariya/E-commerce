@@ -1,0 +1,14 @@
+const express = require('express');
+const routs = express.Router();
+const scatecontroller = require('../controller/scatecontroller');
+const Scategory = require('../models/Scate');
+const Category = require('../models/Category');
+routs.get('/addScate' ,scatecontroller.addScate);
+routs.post('/insertScategoryData',scatecontroller.insertData);
+routs.get('/viewScate',scatecontroller.viewScate);
+routs.get('/isActive/:id',scatecontroller.isActive);
+routs.get('/deActive/:id',scatecontroller.deActive);
+routs.get('/updateScate/:id',scatecontroller.updateScate);
+routs.post('/editScate',scatecontroller.editScate);
+routs.get('/deletScate/:id',scatecontroller.deletScate);
+module.exports =  routs;

@@ -1,0 +1,13 @@
+const express = require('express');
+const routs = express.Router();
+const ecatecontroller = require('../controller/ecatecontroller');
+routs.get('/addEcate',ecatecontroller.addEcate);
+routs.post('/insertEcategoryData',ecatecontroller.insertEcate);
+routs.get('/viewEcate',ecatecontroller.viewEcate);
+routs.post('/getSubcate',ecatecontroller.getSubCate);
+routs.get('/isActive/:id',ecatecontroller.isActive);
+routs.get('/deActive/:id',ecatecontroller.deActive);
+routs.get('/updateEcate/:id',ecatecontroller.updateEcate);
+routs.post('/editEcate',ecatecontroller.editEcate);
+routs.get('/deletEcate/:id',ecatecontroller.deletEcate);
+module.exports = routs;

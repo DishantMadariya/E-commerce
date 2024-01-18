@@ -1,0 +1,131 @@
+                <!-- Footer Start -->
+                <footer class="footer">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <script>document.write(new Date().getFullYear())</script> &copy; Admin Panel create by <a href="#">Dishant Madariya</a> 
+                            </div>
+                            <div class="col-md-6">
+                                <div class="text-md-right footer-links d-none d-sm-block">
+                                    <a href="javascript:void(0);">About Us</a>
+                                    <a href="javascript:void(0);">Help</a>
+                                    <a href="javascript:void(0);">Contact Us</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </footer>
+                <!-- end Footer -->
+
+            </div>
+
+            <!-- ============================================================== -->
+            <!-- End Page content -->
+            <!-- ============================================================== -->
+
+
+        </div>
+        <!-- END wrapper -->
+
+        
+
+        <!-- Right bar overlay-->
+        <div class="rightbar-overlay"></div>
+
+        <!-- Vendor js -->
+        <script src="/js/vendor.min.js"></script>
+
+        <!-- Plugins js-->
+        <script src="/libs/flatpickr/flatpickr.min.js"></script>
+        <script src="/libs/apexcharts/apexcharts.min.js"></script>
+
+        <script src="/libs/selectize/js/standalone/selectize.min.js"></script>
+
+        <!-- Dashboar 1 init js-->
+        <script src="/js/pages/dashboard-1.init.js"></script>
+
+        <!-- App js-->
+        <script src="/js/app.min.js"></script>
+        
+        <!-- Summernote js -->
+        <script src="/libs/summernote/summernote-bs4.min.js"></script>
+        <!-- Select2 js-->
+        <script src="/libs/select2/js/select2.min.js"></script>
+        <!-- Dropzone file uploads-->
+        <script src="/libs/dropzone/min/dropzone.min.js"></script>
+        <!-- Init js-->
+        <script src="/js/pages/form-fileuploads.init.js"></script>
+        <!-- Init js -->
+        <script src="/js/pages/add-product.init.js"></script>
+        
+    </body>
+    <script>
+        function getSubCate(){
+            var cateId = document.getElementById('categoryId').value;
+            $.ajax({
+                url: '/admin/ecate/getSubcate',
+                method : 'post',
+                data : {
+                    categoryId : cateId
+                },
+                success : function(res){
+                    $('#subcategoryId').html(res);
+                }
+            })
+        }
+        function getExCate(){
+            var subcateId = document.getElementById('subcategoryId').value;
+            $.ajax({
+                url : '/admin/brand/getExcate',
+                method : 'post',
+                data :{
+                    subId : subcateId
+                },
+                success : function(res){
+                    $('#extracateId').html(res);
+                }
+            })
+        }
+        function getBrand(){
+            var extraId = document.getElementById('extracateId').value;
+            $.ajax({
+                url :'/admin/type/getBrand',
+                method : 'post',
+                data :{
+                    exId : extraId
+                },
+                success : function(res){
+                    $('#brandId').html(res);
+                }
+            });
+        }
+        function getType(){
+            var bId = document.getElementById('brandId').value;
+            $.ajax({
+                url : '/admin/product/getType',
+                method : 'post',
+                data :{
+                    brId : bId
+                },
+                success : function(res){
+                    $('#typeId').html(res);
+                }
+            })
+        }
+        function deletMulsingle(id,i,img){
+            $.ajax({
+                url : '/admin/product/deletimg',
+                method : 'post',
+                data : {
+                    'id':id,
+                    'i': i,
+                    'img':img
+                },
+                success:function(res){
+                    location.reload();
+                }
+            })
+        }
+    </script>
+<!-- Mirrored from coderthemes.com/ubold/layouts/default/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 26 Sep 2020 05:31:49 GMT -->
+</html>
