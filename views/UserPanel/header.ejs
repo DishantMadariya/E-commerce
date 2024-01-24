@@ -302,7 +302,7 @@
                                         </div>
                                         <ul id="sub-menu" class="sm pixelstrap sm-vertical">
                                             <% for(var cd of cate){%>
-                                            <li> <a href="/user/catproduct/<%=cd.id%>"><%=cd.cateName%></a>
+                                            <li> <a href="/catproduct/<%=cd.id%>"><%=cd.cateName%></a>
                                                 <ul class="mega-menu clothing-menu">
                                                     <li>
                                                         <div class="row m-0">
@@ -314,7 +314,7 @@
                                                                     <ul>
                                                                         <% for(var ed of ecate){
                                                                             if(sd.id == ed.subcategory){%>
-                                                                        <li><a href="#"><%=ed.ecateName%></a></li>
+                                                                        <li><a href="/product/<%=ed.category%>/<%=sd.subcategory%>/<%=ed.id%>"><%=ed.ecateName%></a></li>
                                                                         <%} }%>
                                                                     </ul>
                                                                 </div>
@@ -356,13 +356,13 @@
                                                             <div class="col mega-box">
                                                                 <div class="link-section">
                                                                     <div class="menu-title d-flex">
-                                                                        <h5 class="d-flex" ><a href="/user/scateproduct/<%=sd.id%>" class="h5" style="font-weight: 700;"><%=sd.scateName%></a></h5>
+                                                                        <h5 class="d-flex" ><a href="/scateproduct/<%=sd.id%>" class="h5" style="font-weight: 700;"><%=sd.scateName%></a></h5>
                                                                     </div>
                                                                     <% for(var ed of ecate){
                                                                         if(sd.id == ed.subcategory){%>
                                                                     <div class="menu-content">
                                                                         <ul>
-                                                                            <li><a target="_blank" href="invoice-1.html"><%=ed.ecateName%></a>
+                                                                            <li><a href="/product/<%=cd.id%>/<%=sd.id%>/<%=ed.id%>"><%=ed.ecateName%></a>
                                                                             </li>
                                                                         </ul>
                                                                     </div>

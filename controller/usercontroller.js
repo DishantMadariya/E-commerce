@@ -46,3 +46,28 @@ module.exports.filterBrand = async(req,res)=>{
         product : product
     })
 }
+module.exports.findData = async(req,res)=>{
+    let product = await Product.find({category : req.params.cid,subcategory:req.params.sid,extracategory:req.params.eid}).populate('brandname').exec();
+    let Category = await Cate.find({isActive : true});
+    let Subcategory = await Scate.find({isActive : true});
+    let Extracategory = await Ecate.find({isActive : true});
+    let recentPost = await Product.find({}).sort({ id: -1 }).limit(3);
+    var brands =[];
+    product.forEach(v => {
+        let pos = brands.findIndex((v1,i1)=> v1.id==v.brandname.id);
+        if(pos==-1){
+            brands.push({id : v.brandname.id , name : v.brandname.brandname});
+        }
+    });
+    return res.render('UserPanel/product',{
+        productData : product,
+        cate : Category,
+        subcate : Subcategory,
+        ecate : Extracategory,
+        brand : brands,
+        recentPost : recentPost,
+        cid : req.params.cid,
+        sid : req.params.sid,
+        eid : req.params.eid
+    });
+}
