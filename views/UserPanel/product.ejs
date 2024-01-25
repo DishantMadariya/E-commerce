@@ -47,8 +47,7 @@
                             <div class="collection-brand-filter">
                                 <% brand.map((v)=>{%>
                                 <div class="form-check collection-filter-checkbox">
-                                    <!-- <input type="checkbox" class="form-check-input" id="zara"> -->
-                                    <a href="javascript:brandFilter('<%=v.id%>')"><label class="form-check-label" for="zara"><%=v.name%></label></a>
+                                    <a onclick="return branFilter('<%=v.id%>')"><label class="form-check-label"><%=v.name%></label></a>
                                 </div>
                                 <%})%>
                             </div>
@@ -101,7 +100,7 @@
                         <div class="collection-collapse-block-content">
                             <div class="wrapper mt-3">
                                 <div class="range-slider">
-                                    <input type="text" class="js-range-slider" value="" />
+                                    <input type="text"  class="js-range-slider" id="price"/>
                                 </div>
                             </div>
                         </div>
@@ -192,23 +191,22 @@
                                         </div>
                                     </div>
                                 </div>
-                                
+                                        <input type="hidden" value="<%=cid%>" id="cateId">
+                                        <input type="hidden" value="<%=sid%>" id="scateId">
+                                        <input type="hidden" value="<%=eid%>" id="ecateId">
                                 <div class="product-wrapper-grid">
                                     <div class="row margin-res" id="productId">
                                     <%for(var p of productData){%>
-                                        <input type="hidden" value="<%=p.category%>" id="cateId">
-                                        <input type="hidden" value="<%=p.subcategory%>" id="scateId">
-                                        <input type="hidden" value="<%=p.extracategory%>" id="ecateId">
                                         <div class="col-xl-3 col-6 col-grid-box">
                                             <div class="product-box">
                                                 <div class="img-wrapper">
                                                     <div class="front">
-                                                        <a href="#"><img src="<%=p.productImage%>"
+                                                        <a href="/gotocart/<%=p.id%>"><img src="<%=p.productImage%>"
                                                                 class="img-fluid blur-up lazyload bg-img"
                                                                 alt=""></a>
                                                     </div>
                                                     <div class="back">
-                                                        <a href="#"><img src="<%=p.productImage%>"
+                                                        <a href="/gotocart/<%=p.id%>"><img src="<%=p.productImage%>"
                                                                 class="img-fluid blur-up lazyload bg-img"
                                                                 alt=""></a>
                                                     </div>
@@ -296,7 +294,29 @@
 </section>
 <!-- section End -->
 
-
+<script>
+     function branFilter(id){
+            var cate = document.getElementById('cateId').value;
+            var scate = document.getElementById('scateId').value;
+            var ecate = document.getElementById('ecateId').value;
+            console.log(cate);
+            console.log(scate);
+            console.log(ecate);
+            // $.ajax({
+            //     url :'/filterBrand',
+            //     method : 'post',
+            //     data :{
+            //         id : id,
+            //         cid : cate,
+            //         sid : scate,
+            //         eid : ecate
+            //     },
+            //     success : function(res){
+            //         $('#productId').html(res);
+            //     }
+            // });
+        }
+</script>
 
 
 <%-include('footer')%>

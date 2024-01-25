@@ -1009,25 +1009,9 @@
         function closeSearch() {
             document.getElementById("search-overlay").style.display = "none";
         }
-
-        function brandFilter(id){
-            var cate = document.getElementById('cateId').value;
-            var scate = document.getElementById('scateId').value;
-            var ecate = document.getElementById('ecateId').value;
-            $.ajax({
-                url :'/filterBrand',
-                method : 'post',
-                data :{
-                    id : id,
-                    cid : cate,
-                    sid : scate,
-                    eid : ecate
-                },
-                success : function(res){
-                    $('#productId').html(res);
-                }
-            });
-        }
+        var price = document.getElementById('price').value;
+        console.log(price);
+       
     </script>
 
 </body>
