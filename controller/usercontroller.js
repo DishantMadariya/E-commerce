@@ -4,6 +4,7 @@ const Ecate = require('../models/Ecate');
 const Brand = require('../models/Brand');
 const Type = require('../models/Type');
 const Product = require('../models/Product');
+const User = require('../models/User')
 module.exports.home = async(req,res)=>{
     let Category = await Cate.find({isActive : true});
     let Subcategory = await Scate.find({isActive : true});
@@ -70,10 +71,59 @@ module.exports.gotocart = async(req,res)=>{
     let Category = await Cate.find({isActive : true});
     let Subcategory = await Scate.find({isActive : true});
     let Extracategory = await Ecate.find({isActive : true});
+    let recentPost = await Product.find({}).sort({ id: -1 }).limit(6);
     return res.render('UserPanel/singleproduct',{
         cate : Category,
         subcate : Subcategory,
         ecate : Extracategory,
-        details : singleproduct
+        details : singleproduct,
+        recentProduct : recentPost
     })
+}
+module.exports.userlogin = async(req,res)=>{
+    let Category = await Cate.find({isActive : true});
+    let Subcategory = await Scate.find({isActive : true});
+    let Extracategory = await Ecate.find({isActive : true});
+    return res.render('UserPanel/userLogin',{
+        cate : Category,
+        subcate : Subcategory,
+        ecate : Extracategory,
+    });
+}
+module.exports.userRegister = async(req,res)=>{
+    try {
+        let Checkmail = await User.findOne({email : req.body.email});
+        if(Checkmail){
+            console.log('Email ALready Exist');
+            return res.redirect('back');
+        }
+        else{
+            if(req.body.password == req.body.cpassword){
+                req.body.isActive = true;
+                req.body.currentDate = new Date().toLocaleString();
+                req.body.updateDate = new Date().toLocaleString();
+                req.body.role = 'user';
+                let createuser = await User.create(req.body)
+                if(createuser){
+                    console.log('Register Succesfully');
+                    return res.redirect('back');
+                }
+                else{
+                    console.log('Something Wrong');
+                    return res.redirect('back');
+                }
+            }
+            else{
+                console.log('Password & confirm Password are not match');
+                return res.redirect('back');
+            }
+        }
+    } catch (error) {
+        console.log(error);
+        return res.redirect('back');
+    }
+}
+module.exports.UserLogin = async(req,res)=>{
+    console.log('login Succesfully');
+    return res.redirect('/');
 }

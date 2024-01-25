@@ -21,6 +21,7 @@ module.exports.insertAdmin = async(req,res)=>{
         req.body.isActive = true;
         req.body.currentDate = new Date().toLocaleString();
         req.body.updateDate = new Date().toLocaleString();
+        req.body.role = 'admin';
         await Admin.create(req.body);
         return res.redirect('back');
     }

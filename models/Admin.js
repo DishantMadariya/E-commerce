@@ -46,6 +46,10 @@ const AdminSchema = mongoose.Schema({
     updateDate :{
         type : String,
         required : true
+    },
+    role : {
+        type : String,
+        require : true
     }
 });
 const imgStorage = multer.diskStorage({
