@@ -54,7 +54,7 @@
                         </div>
                         <% var price =parseInt(details.price)%>
                         <% var oldprice =parseInt(details.oldprice)%>
-                        <% var disscount = Math.round((price*100)/oldprice) %>
+                        <% var disscount =Math.round(((oldprice - price) / oldprice) * 100) %>
                         <h3 class="price-detail">₹ <%=details.price%> <del>₹ <%=details.oldprice%></del><span><%=disscount%> <%='% discounts'%></span></h3>
                         <ul class="color-variant">
                             <li class="bg-light0 bg-dark opacity-0"  <%if(details.color.includes('Black')){%> style="visibility: visible !important;"  <%} else{%> style="display: none !important;"  <%}%>></li>
@@ -64,10 +64,17 @@
                             <li class="bg-light0 bg-pink opacity-0" <%if(details.color.includes('Pink')){%> style="visibility: visible !important;"  <%}else{%> style="display: none !important;"  <%}%>></li>
                         </ul>
                         <div class="product-buttons">
-                            <a href="/userlogin" id="cartEffect" class="btn btn-solid hover-solid btn-animation">
-                                <i class="fa fa-shopping-cart me-1" aria-hidden="true"></i>
-                                 add to cart
-                            </a>
+                            <%if(locals.userdata){%>
+                                <a href="/cart/<%=details.id%>/<%=locals.userdata.id%>" id="cartEffect" class="btn btn-solid hover-solid btn-animation">
+                                    <i class="fa fa-shopping-cart me-1" aria-hidden="true"></i>
+                                     add to cart
+                                </a>
+                            <%} else {%>
+                                <a href="/userlogin" id="cartEffect" class="btn btn-solid hover-solid btn-animation">
+                                    <i class="fa fa-shopping-cart me-1" aria-hidden="true"></i>
+                                     add to cart
+                                </a>
+                            <%}%>
                             <a href="#" class="btn btn-solid">
                                 <i class="fa fa-bookmark fz-16 me-2" aria-hidden="true"></i>
                                 wishlist
@@ -125,17 +132,7 @@
                 </ul>
                     <div class="tab-pane fade show active" id="top-review" role="tabpanel" aria-labelledby="review-top-tab">
                         <form class="theme-form">
-                            <div class="form-row row">
-                                <div class="col-md-12">
-                                    <div class="media">
-                                        <label>Rating</label>
-                                        <div class="media-body ms-3">
-                                            <div class="rating three-star"><i class="fa fa-star"></i> <i
-                                                    class="fa fa-star"></i> <i class="fa fa-star"></i> <i
-                                                    class="fa fa-star"></i> <i class="fa fa-star"></i></div>
-                                        </div>
-                                    </div>
-                                </div>
+                            <div class="form-row row mt-3">
                                 <div class="col-md-6">
                                     <label for="name">Name</label>
                                     <input type="text" class="form-control" id="name" placeholder="Enter Your name"

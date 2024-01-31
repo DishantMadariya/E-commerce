@@ -272,11 +272,15 @@
                             <li class="mobile-wishlist"><a href="#"><i class="fa fa-heart" aria-hidden="true"></i></a>
                             </li>
                             <li class="onhover-dropdown mobile-account"> <i class="fa fa-user" aria-hidden="true"></i>
-                                My Account
+                                <%if(locals.userdata){%>
+                                    <%=locals.userdata.name%>
+                                <%} else{%>
+                                    My Account
                                 <ul class="onhover-show-div">
                                     <li><a href="/userlogin">Login</a></li>
                                     <li><a href="/regiester">register</a></li>
                                 </ul>
+                                <%}%>
                             </li>
                         </ul>
                     </div>
@@ -432,41 +436,42 @@
                                             <div><img src="/assets/images/icon/cart.png"
                                                     class="img-fluid blur-up lazyload" alt=""> <i
                                                     class="ti-shopping-cart"></i></div>
-                                            <span class="cart_qty_cls">2</span>
+                                            <%if(locals.userdata){%>
+                                                <span class="cart_qty_cls"><%=cartdata%></span>
+                                            <%} else{%>
+                                                <span class="cart_qty_cls">0</span>
+                                            <%}%>
                                             <ul class="show-div shopping-cart">
+                                            <%if(cartpendingData){%>
+                                                <%for(var c of cartpendingData){%>
                                                 <li>
                                                     <div class="media">
                                                         <a href="#"><img alt="" class="me-3"
-                                                                src="/assets/images/fashion/product/1.jpg"></a>
+                                                                src="<%=c.productId.productImage%>"></a>
                                                         <div class="media-body">
                                                             <a href="#">
-                                                                <h4>item name</h4>
+                                                                <h4><%=c.productId.title%></h4>
                                                             </a>
-                                                            <h4><span>1 x $ 299.00</span></h4>
+                                                            <h4><span><%=c.quantity%> x ₹ <%=c.productId.price%></span></h4>
                                                         </div>
                                                     </div>
                                                     <div class="close-circle"><a href="#"><i class="fa fa-times"
                                                                 aria-hidden="true"></i></a></div>
                                                 </li>
-                                                <li>
-                                                    <div class="media">
-                                                        <a href="#"><img alt="" class="me-3"
-                                                                src="/assets/images/fashion/product/2.jpg"></a>
-                                                        <div class="media-body">
-                                                            <a href="#">
-                                                                <h4>item name</h4>
-                                                            </a>
-                                                            <h4><span>1 x $ 299.00</span></h4>
-                                                        </div>
-                                                    </div>
-                                                    <div class="close-circle"><a href="#"><i class="fa fa-times"
-                                                                aria-hidden="true"></i></a></div>
-                                                </li>
+                                                <%}%>
+
                                                 <li>
                                                     <div class="total">
-                                                        <h5>subtotal : <span>$299.00</span></h5>
+                                                        <% var total=0;%>
+                                                        <% var sub=0;%>
+                                                        <% for(var i = 0;i< cartpendingData.length ;i++){%>
+                                                            <% var priceString = cartpendingData[i].productId.price.replace(/,/g, '');%>
+                                                            <% sub += cartpendingData[i].quantity * Number(priceString);%>
+                                                        <%}%>
+                                                        <h5>subtotal : <span>₹<%=sub%></span></h5>
                                                     </div>
                                                 </li>
+                                            <%}%>
                                                 <li>
                                                     <div class="buttons"><a href="cart.html" class="view-cart">view
                                                             cart</a> <a href="#" class="checkout">checkout</a></div>

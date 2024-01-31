@@ -4,91 +4,141 @@ const Ecate = require('../models/Ecate');
 const Brand = require('../models/Brand');
 const Type = require('../models/Type');
 const Product = require('../models/Product');
-const User = require('../models/User')
+const User = require('../models/User');
+const Cart = require('../models/Cart');
 module.exports.home = async(req,res)=>{
-    let Category = await Cate.find({isActive : true});
-    let Subcategory = await Scate.find({isActive : true});
-    let Extracategory = await Ecate.find({isActive : true});
-    let product = await Product.find({isActive : true});
-    return res.render('UserPanel/home',{
-        cate : Category,
-        subcate : Subcategory,
-        ecate : Extracategory,
-        productData : product
-    });
+    try {
+        let Category = await Cate.find({isActive : true});
+        let Subcategory = await Scate.find({isActive : true});
+        let Extracategory = await Ecate.find({isActive : true});
+        let product = await Product.find({isActive : true});
+        if(req.user){
+            var cartData = await Cart.find({userId : req.user.id, status : 'pending'}).countDocuments();
+            var cartPendingData = await Cart.find({ userId: req.user.id, status: 'pending' }).populate('productId').exec();
+        }
+        return res.render('UserPanel/home',{
+            cate : Category,
+            subcate : Subcategory,
+            ecate : Extracategory,
+            productData : product,
+            cartdata : cartData,
+            cartpendingData : cartPendingData
+        });
+    } catch (error) {
+        console.log(error);
+        return res.redirect('back');
+    }
 }
 module.exports.filterBrand = async(req,res)=>{
-    let catData = await Product.find({category : req.body.cid,subcategory:req.body.sid,extracategory:req.body.eid,brandname:req.body.id});
-    let product = await Product.find({category : req.body.cid});
-    catData
-    return res.render('UserPanel/filter',{
-        productData : catData,
-        product : product
-    })
+    try {
+        let catData = await Product.find({category : req.body.cid,subcategory:req.body.sid,extracategory:req.body.eid,brandname:req.body.id});
+        let product = await Product.find({category : req.body.cid});
+        catData
+        return res.render('UserPanel/filter',{
+            productData : catData,
+            product : product
+        });
+    } catch (error) {
+        console.log(error);
+        return res.redirect('back');
+    }
 }
 module.exports.findData = async(req,res)=>{
-    let product = await Product.find({category : req.params.cid,subcategory:req.params.sid,extracategory:req.params.eid}).populate('brandname').exec();
-    let Category = await Cate.find({isActive : true});
-    let Subcategory = await Scate.find({isActive : true});
-    let Extracategory = await Ecate.find({isActive : true});
-    let recentPost = await Product.find({}).sort({ id: -1 }).limit(3);
-    var brands =[];
-    product.forEach(v => {
-        let pos = brands.findIndex((v1,i1)=> v1.id==v.brandname.id);
-        if(pos==-1){
-            brands.push({id : v.brandname.id , name : v.brandname.brandname});
+    try {
+        let product = await Product.find({category : req.params.cid,subcategory:req.params.sid,extracategory:req.params.eid}).populate('brandname').exec();
+        let Category = await Cate.find({isActive : true});
+        let Subcategory = await Scate.find({isActive : true});
+        let Extracategory = await Ecate.find({isActive : true});
+        let recentPost = await Product.find({category : req.params.cid}).sort({ id: -1 }).limit(3);
+        if(req.user){
+            var cartData = await Cart.find({userId : req.user.id, status : 'pending'}).countDocuments();
+            var cartPendingData = await Cart.find({ userId: req.user.id, status: 'pending' }).populate('productId').exec();
         }
-    });
-    var max = 0;
-    product.map((v,i)=>{
-        if(parseInt(v.price)>max){
-            max = parseInt(v.price);
-        }
-    })
-    min = max;
+        var brands =[];
+        product.forEach(v => {
+            let pos = brands.findIndex((v1,i1)=> v1.id==v.brandname.id);
+            if(pos==-1){
+                brands.push({id : v.brandname.id , name : v.brandname.brandname});
+            }
+        });
+        var max = 0;
+        product.map((v,i)=>{
+            if(parseInt(v.price)>max){
+                max = parseInt(v.price);
+            }
+        })
+        min = max;
 
-    product.map((v,i)=>{
-        if(parseInt(v.price)<min){
-            min = parseInt(v.price);
-        }
-    })
-    return res.render('UserPanel/product',{
-        productData : product,
-        cate : Category,
-        subcate : Subcategory,
-        ecate : Extracategory,
-        brand : brands,
-        recentPost : recentPost,
-        cid : req.params.cid,
-        sid : req.params.sid,
-        eid : req.params.eid,
-        min:min,
-        max:max,
-    });
+        product.map((v,i)=>{
+            if(parseInt(v.price)<min){
+                min = parseInt(v.price);
+            }
+        })
+        return res.render('UserPanel/product',{
+            productData : product,
+            cate : Category,
+            subcate : Subcategory,
+            ecate : Extracategory,
+            brand : brands,
+            recentPost : recentPost,
+            cid : req.params.cid,
+            sid : req.params.sid,
+            eid : req.params.eid,
+            min:min,
+            max:max,
+            cartdata : cartData,
+            cartpendingData : cartPendingData
+        });
+    } catch (error) {
+        console.log(error);
+        return res.redirect('back');
+    }
 }
 module.exports.gotocart = async(req,res)=>{
-    let singleproduct = await Product.findById(req.params.id);
-    let Category = await Cate.find({isActive : true});
-    let Subcategory = await Scate.find({isActive : true});
-    let Extracategory = await Ecate.find({isActive : true});
-    let recentPost = await Product.find({}).sort({ id: -1 }).limit(6);
-    return res.render('UserPanel/singleproduct',{
-        cate : Category,
-        subcate : Subcategory,
-        ecate : Extracategory,
-        details : singleproduct,
-        recentProduct : recentPost
-    })
+    try {
+        let singleproduct = await Product.findById(req.params.id);
+        let Category = await Cate.find({isActive : true});
+        let Subcategory = await Scate.find({isActive : true});
+        let Extracategory = await Ecate.find({isActive : true});
+        let recentPost = await Product.find({category: singleproduct.category}).sort({ id: -1 }).limit(6);
+        if(req.user){
+            var cartData = await Cart.find({userId : req.user.id, status : 'pending'}).countDocuments();
+            var cartPendingData = await Cart.find({ userId: req.user.id, status: 'pending' }).populate('productId').exec();
+        }
+        return res.render('UserPanel/singleproduct',{
+            cate : Category,
+            subcate : Subcategory,
+            ecate : Extracategory,
+            details : singleproduct,
+            recentProduct : recentPost,
+            cartdata : cartData,
+            cartpendingData : cartPendingData
+        })
+    } catch (error) {
+        console.log(error);
+        return res.redirect('back');
+    }
 }
 module.exports.userlogin = async(req,res)=>{
-    let Category = await Cate.find({isActive : true});
-    let Subcategory = await Scate.find({isActive : true});
-    let Extracategory = await Ecate.find({isActive : true});
-    return res.render('UserPanel/userLogin',{
-        cate : Category,
-        subcate : Subcategory,
-        ecate : Extracategory,
-    });
+    try {
+        let Category = await Cate.find({isActive : true});
+        let Subcategory = await Scate.find({isActive : true});
+        let Extracategory = await Ecate.find({isActive : true});
+        if(req.user){
+            var cartData = await Cart.find({userId : req.user.id, status : 'pending'}).countDocuments();
+            var cartPendingData = await Cart.find({ userId: req.user.id, status: 'pending' }).populate('productId').exec();
+        }
+        return res.render('UserPanel/userLogin',{
+            cate : Category,
+            subcate : Subcategory,
+            ecate : Extracategory,
+            cartdata : cartData,
+            cartpendingData : cartPendingData
+        });
+    } catch (error) {
+        console.log(error);
+        return res.redirect('back');
+    }
 }
 module.exports.userRegister = async(req,res)=>{
     try {
@@ -124,6 +174,37 @@ module.exports.userRegister = async(req,res)=>{
     }
 }
 module.exports.UserLogin = async(req,res)=>{
+    console.log(req.user);
     console.log('login Succesfully');
     return res.redirect('/');
+}
+module.exports.addtoCart = async(req,res)=>{
+    try {
+        let already = await Cart.findOne({userId: req.params.userid, productId : req.params.productid});
+        if(already){
+            console.log('Product Already into Cart');
+        }
+        else{
+            const cartdata = {
+                productId : req.params.productid,
+                userId : req.params.userid,
+                quantity : 1,
+                status : 'pending',
+                currentDate : new Date().toLocaleString(),
+                updateDate : new Date().toLocaleString(),
+            }
+            let cart = await Cart.create(cartdata);
+            if(cart){
+                console.log('Add to Cart Succesfully');
+                return res.redirect('back');
+            }
+            return res.redirect('back');
+        }
+        return res.redirect('back');
+    }
+    catch (error) {
+        console.log('something Wrong');
+        return res.redirect('back');    
+    }
+    
 }

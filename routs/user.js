@@ -8,5 +8,6 @@ routs.get('/product/:cid/:sid/:eid',usercontroller.findData);
 routs.get('/gotocart/:id',usercontroller.gotocart);
 routs.get('/userlogin',usercontroller.userlogin);
 routs.post('/register',usercontroller.userRegister);
-routs.post('/login',passport.authenticate('user',{failureRedirect : '/'}),passport.checkAthuntication,usercontroller.UserLogin);
+routs.post('/login',passport.authenticate('user',{failureRedirect : '/'}),usercontroller.UserLogin);
+routs.get('/cart/:productid/:userid',usercontroller.addtoCart);
 module.exports = routs;

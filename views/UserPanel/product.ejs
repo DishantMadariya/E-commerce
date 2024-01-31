@@ -196,55 +196,61 @@
                                         <input type="hidden" value="<%=eid%>" id="ecateId">
                                 <div class="product-wrapper-grid">
                                     <div class="row margin-res" id="productId">
-                                    <%for(var p of productData){%>
-                                        <div class="col-xl-3 col-6 col-grid-box">
-                                            <div class="product-box">
-                                                <div class="img-wrapper">
-                                                    <div class="front">
-                                                        <a href="/gotocart/<%=p.id%>"><img src="<%=p.productImage%>"
-                                                                class="img-fluid blur-up lazyload bg-img"
-                                                                alt=""></a>
+                                    <%if(productData != ''){%>
+                                        <%for(var p of productData){%>
+                                            <div class="col-xl-3 col-6 col-grid-box">
+                                                <div class="product-box">
+                                                    <div class="img-wrapper">
+                                                        <div class="front">
+                                                            <a href="/gotocart/<%=p.id%>"><img src="<%=p.productImage%>"
+                                                                    class="img-fluid blur-up lazyload bg-img"
+                                                                    alt=""></a>
+                                                        </div>
+                                                        <div class="back">
+                                                            <a href="/gotocart/<%=p.id%>"><img src="<%=p.productImage%>"
+                                                                    class="img-fluid blur-up lazyload bg-img"
+                                                                    alt=""></a>
+                                                        </div>
+                                                        <div class="cart-info cart-wrap">
+                                                            <button data-bs-toggle="modal"
+                                                                data-bs-target="#addtocart" title="Add to cart"><i
+                                                                    class="ti-shopping-cart"></i></button> <a
+                                                                href="javascript:void(0)" title="Add to Wishlist"><i
+                                                                    class="ti-heart" aria-hidden="true"></i></a> <a
+                                                                href="#" data-bs-toggle="modal"
+                                                                data-bs-target="#quick-view" title="Quick View"><i
+                                                                    class="ti-search" aria-hidden="true"></i></a> <a
+                                                                href="compare.html" title="Compare"><i
+                                                                    class="ti-reload" aria-hidden="true"></i></a>
+                                                        </div>
                                                     </div>
-                                                    <div class="back">
-                                                        <a href="/gotocart/<%=p.id%>"><img src="<%=p.productImage%>"
-                                                                class="img-fluid blur-up lazyload bg-img"
-                                                                alt=""></a>
-                                                    </div>
-                                                    <div class="cart-info cart-wrap">
-                                                        <button data-bs-toggle="modal"
-                                                            data-bs-target="#addtocart" title="Add to cart"><i
-                                                                class="ti-shopping-cart"></i></button> <a
-                                                            href="javascript:void(0)" title="Add to Wishlist"><i
-                                                                class="ti-heart" aria-hidden="true"></i></a> <a
-                                                            href="#" data-bs-toggle="modal"
-                                                            data-bs-target="#quick-view" title="Quick View"><i
-                                                                class="ti-search" aria-hidden="true"></i></a> <a
-                                                            href="compare.html" title="Compare"><i
-                                                                class="ti-reload" aria-hidden="true"></i></a>
-                                                    </div>
-                                                </div>
-                                                <div class="product-detail">
-                                                    <div>
-                                                        <div class="rating"><i class="fa fa-star"></i> <i
-                                                                class="fa fa-star"></i> <i
-                                                                class="fa fa-star"></i> <i
-                                                                class="fa fa-star"></i> <i
-                                                                class="fa fa-star"></i></div>
-                                                        <a href="product-page(no-sidebar).html">
-                                                            <h6><%=p.title%></h6>
-                                                        </a>
-                                                        <p><%=p.description%></p>
-                                                        <h4>₹<%=p.price%></h4>
-                                                        <ul class="color-variant">
-                                                            <li class="bg-light0 bg-dark opacity-0"  <%if(p.color.includes('Black')){%> style="visibility: visible !important;"  <%} else{%> style="display: none !important;"  <%}%>></li>
-                                                            <li class="bg-light0 bg-warning opacity-0" <%if(p.color.includes('Yellow')){%> style="visibility: visible !important;"  <%}else{%> style="display: none !important;"  <%}%>></li>
-                                                            <li class="bg-light0 bg-primary opacity-0" <%if(p.color.includes('Blue')){%> style="visibility: visible !important;"  <%}else{%> style="display: none !important;"  <%}%>></li>
-                                                            <li class="bg-light0 bg-danger opacity-0" <%if(p.color.includes('Red')){%> style="visibility: visible !important;"  <%}else{%> style="display: none !important;"  <%}%>></li>
-                                                            <li class="bg-light0 bg-pink opacity-0" <%if(p.color.includes('Pink')){%> style="visibility: visible !important;"  <%}else{%> style="display: none !important;"  <%}%>></li>
-                                                        </ul>
+                                                    <div class="product-detail">
+                                                        <div>
+                                                            <div class="rating"><i class="fa fa-star"></i> <i
+                                                                    class="fa fa-star"></i> <i
+                                                                    class="fa fa-star"></i> <i
+                                                                    class="fa fa-star"></i> <i
+                                                                    class="fa fa-star"></i></div>
+                                                            <a href="product-page(no-sidebar).html">
+                                                                <h6><%=p.title%></h6>
+                                                            </a>
+                                                            <p><%=p.description%></p>
+                                                            <h4>₹<%=p.price%></h4>
+                                                            <ul class="color-variant">
+                                                                <li class="bg-light0 bg-dark opacity-0"  <%if(p.color.includes('Black')){%> style="visibility: visible !important;"  <%} else{%> style="display: none !important;"  <%}%>></li>
+                                                                <li class="bg-light0 bg-warning opacity-0" <%if(p.color.includes('Yellow')){%> style="visibility: visible !important;"  <%}else{%> style="display: none !important;"  <%}%>></li>
+                                                                <li class="bg-light0 bg-primary opacity-0" <%if(p.color.includes('Blue')){%> style="visibility: visible !important;"  <%}else{%> style="display: none !important;"  <%}%>></li>
+                                                                <li class="bg-light0 bg-danger opacity-0" <%if(p.color.includes('Red')){%> style="visibility: visible !important;"  <%}else{%> style="display: none !important;"  <%}%>></li>
+                                                                <li class="bg-light0 bg-pink opacity-0" <%if(p.color.includes('Pink')){%> style="visibility: visible !important;"  <%}else{%> style="display: none !important;"  <%}%>></li>
+                                                            </ul>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
+                                        <%}%>
+                                    <%} else {%>
+                                        <div>
+                                            <h3 class="mt-3">Sorry ! Currently No record found</h3>
                                         </div>
                                     <%}%>
                                     </div>
