@@ -10,4 +10,5 @@ routs.get('/userlogin',usercontroller.userlogin);
 routs.post('/register',usercontroller.userRegister);
 routs.post('/login',passport.authenticate('user',{failureRedirect : '/'}),usercontroller.UserLogin);
 routs.get('/cart/:productid/:userid',usercontroller.addtoCart);
+routs.get('/delet/:id',usercontroller.deletcart);
 module.exports = routs;

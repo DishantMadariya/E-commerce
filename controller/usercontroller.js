@@ -174,7 +174,6 @@ module.exports.userRegister = async(req,res)=>{
     }
 }
 module.exports.UserLogin = async(req,res)=>{
-    console.log(req.user);
     console.log('login Succesfully');
     return res.redirect('/');
 }
@@ -205,6 +204,19 @@ module.exports.addtoCart = async(req,res)=>{
     catch (error) {
         console.log('something Wrong');
         return res.redirect('back');    
+    }
+    
+}
+module.exports.deletcart = async(req,res)=>{
+    try {
+        let finddata = await Cart.findByIdAndDelete(req.params.id);
+        if(finddata){
+            console.log('cart item delet succesfully');
+        }
+    return res.redirect('back');
+    } catch (error) {
+        console.log(error);
+        return res.redirect('back');
     }
     
 }

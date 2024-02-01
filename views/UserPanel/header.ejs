@@ -278,8 +278,7 @@
                                 <%} else{%>
                                     My Account
                                 <ul class="onhover-show-div">
-                                    <li><a href="/userlogin">Login</a></li>
-                                    <li><a href="/regiester">register</a></li>
+                                    <li><a href="/userlogin">Login & Register</a></li>
                                 </ul>
                                 <%}%>
                             </li>
@@ -456,7 +455,7 @@
                                                             <h4><span><%=c.quantity%> x ₹ <%=c.productId.price%></span></h4>
                                                         </div>
                                                     </div>
-                                                    <div class="close-circle"><a href="#"><i class="fa fa-times"
+                                                    <div class="close-circle"><a href="/delet/<%=c.id%>"><i class="fa fa-times"
                                                                 aria-hidden="true"></i></a></div>
                                                 </li>
                                                 <%}%>
