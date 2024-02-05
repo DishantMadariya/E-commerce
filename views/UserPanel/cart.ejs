@@ -1,0 +1,98 @@
+<%-include('header')%>
+<!--section start-->
+<section class="cart-section section-b-space">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="cart_counter">
+                    <div class="countdownholder">
+                        Your cart will be expired in<span id="timer"></span> minutes!
+                    </div>
+                    <a href="checkout.html" class="cart_checkout btn btn-solid btn-xs">check out</a>
+                </div>
+            </div>
+            <div class="col-sm-12 table-responsive-xs">
+                <table class="table cart-table">
+                    <thead>
+                        <tr class="table-head">
+                            <th scope="col">action</th>
+                            <th scope="col">image</th>
+                            <th scope="col">product name</th>
+                            <th scope="col">price</th>
+                            <th scope="col">quantity</th>
+                            <th scope="col">total</th>
+                        </tr>
+                    </thead>
+                    <%for(var c of cart){%>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="col">
+                                    <h2 class="td-color"><a href="#" class="icon"><i class="ti-close"></i></a>
+                                    </h2>
+                                </div>
+                            </td>
+                            <td>
+                                <a href="#"><img src="<%=c.productId.productImage%>" alt=""></a>
+                            </td>
+                            <td><a href="#"><%=c.productId.title%></a>
+                                <div class="mobile-cart-content row">
+                                    <div class="col">
+                                        <div class="qty-box">
+                                            <div class="input-group">
+                                                <input type="text" name="quantity" min="1" max="6" class="form-control input-number"
+                                                    value="<%=c.quantity%>">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <h2 class="td-color">₹<%=c.productId.price%></h2>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <h2>₹<%=c.productId.price%></h2>
+                            </td>
+                            <td>
+                                <div class="qty-box">
+                                    <div class="input-group">
+                                        <input type="number" name="quantity" min="1" max="6" class="form-control input-number"
+                                            value="<%=c.quantity%>">
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <% var price =c.productId.price.replace(/,/g, '')%>
+                                <h2 class="td-color">₹<%=c.quantity * Number(price);%>.00</h2>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <%}%>
+                </table>
+                <div class="table-responsive-md">
+                    <table class="table cart-table ">
+                        <tfoot>
+                            <tr>
+                                <% var total=0;%>
+                                <% var sub=0;%>
+                                <% for(var i = 0;i< cart.length ;i++){%>
+                                    <% var priceString = cart[i].productId.price.replace(/,/g, '');%>
+                                    <% sub += cart[i].quantity * Number(priceString);%>
+                                <%}%>
+                                <td>total price :</td>
+                                <td>
+                                    <h2>₹<%=sub%>.00</h2>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="row cart-buttons">
+            <div class="col-6"><a href="#" class="btn btn-solid">continue shopping</a></div>
+            <div class="col-6"><a href="#" class="btn btn-solid">check out</a></div>
+        </div>
+    </div>
+</section>
+<%-include('footer')%>

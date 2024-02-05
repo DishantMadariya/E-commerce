@@ -220,3 +220,35 @@ module.exports.deletcart = async(req,res)=>{
     }
     
 }
+module.exports.cart = async(req,res)=>{
+    try {
+        let Category = await Cate.find({isActive : true});
+        let Subcategory = await Scate.find({isActive : true});
+        let Extracategory = await Ecate.find({isActive : true});
+        if(req.user){
+            var cartData = await Cart.find({userId : req.user.id, status : 'pending'}).countDocuments();
+            var cartPendingData = await Cart.find({ userId: req.user.id, status: 'pending' }).populate('productId').exec();
+        }
+        let findcart = await Cart.find({userId : req.params.id}).populate('productId').exec();
+        console.log(findcart);
+        if(findcart){
+            return res.render('UserPanel/cart',{
+                cate : Category,
+                subcate : Subcategory,
+                ecate : Extracategory,
+                cartdata : cartData,
+                cartpendingData : cartPendingData,
+                cart : findcart
+            });
+        }
+        else{
+            console.log('cart Data not Found');
+            return res.redirect('/');
+        }
+       
+    }
+    catch (error) {
+        console.log(error);
+        return res.redirect('/');
+    }
+}

@@ -473,8 +473,13 @@
                                                 </li>
                                             <%}%>
                                                 <li>
-                                                    <div class="buttons"><a href="cart.html" class="view-cart">view
+                                                    <%if(locals.userdata){%>
+                                                    <div class="buttons"><a href="/cart/<%=locals.userdata.id%>" class="view-cart">view
                                                             cart</a> <a href="#" class="checkout">checkout</a></div>
+                                                    <%} else{%>
+                                                        <div class="buttons"><a href="/userlogin" class="view-cart">view
+                                                            cart</a> </div>
+                                                    <%}%>
                                                 </li>
                                             </ul>
                                         </li>
