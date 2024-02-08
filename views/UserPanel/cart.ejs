@@ -24,6 +24,7 @@
                         </tr>
                     </thead>
                     <%for(var c of cart){%>
+                        <%var i=0;%>
                     <tbody>
                         <tr>
                             <td>
@@ -40,24 +41,22 @@
                                     <div class="col">
                                         <div class="qty-box">
                                             <div class="input-group">
-                                                <input type="text" name="quantity" min="1" max="6" class="form-control input-number"
-                                                    value="<%=c.quantity%>">
+                                                <input type="text" name="quantity" min="1" max="6" class="form-control input-number" id="quantity<%=i%>" onchange="subtotalfind()" value="1">
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col">
-                                        <h2 class="td-color">₹<%=c.productId.price%></h2>
+                                        <h2 class="td-color" id="price<%=i%>">₹<%=c.productId.price%></h2>
                                     </div>
                                 </div>
                             </td>
                             <td>
-                                <h2>₹<%=c.productId.price%></h2>
+                                <h2 id="price<%=i%>">₹<%=c.productId.price%></h2>
                             </td>
                             <td>
                                 <div class="qty-box">
                                     <div class="input-group">
-                                        <input type="number" name="quantity" min="1" max="6" class="form-control input-number"
-                                            value="<%=c.quantity%>">
+                                        <input type="number" name="quantity" min="1" max="6" class="form-control input-number" id="quantity<%=i%>" onchange="subtotalfind()" value="1">
                                     </div>
                                 </div>
                             </td>
@@ -67,6 +66,7 @@
                             </td>
                         </tr>
                     </tbody>
+                    <% i++%>
                     <%}%>
                 </table>
                 <div class="table-responsive-md">
@@ -95,4 +95,12 @@
         </div>
     </div>
 </section>
+<!-- <script>
+     function subtotalfind(){
+        var i=0;
+            var quantity = document.getElementById('quantity+i');
+            console.log(quantity);
+            i++;
+        }
+</script> -->
 <%-include('footer')%>

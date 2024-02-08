@@ -230,7 +230,6 @@ module.exports.cart = async(req,res)=>{
             var cartPendingData = await Cart.find({ userId: req.user.id, status: 'pending' }).populate('productId').exec();
         }
         let findcart = await Cart.find({userId : req.params.id}).populate('productId').exec();
-        console.log(findcart);
         if(findcart){
             return res.render('UserPanel/cart',{
                 cate : Category,

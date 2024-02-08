@@ -7,6 +7,7 @@ const session = require('express-session');
 const passport = require('passport');
 const passportLocal = require('./config/passportStrategy');
 const cookieParser = require('cookie-parser');
+const GoogleStrategy = require('./config/googleauth');
 app.use(cookieParser());
 app.use(express.urlencoded());
 app.set('view engine', 'ejs');

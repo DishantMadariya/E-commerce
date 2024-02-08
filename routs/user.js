@@ -12,4 +12,14 @@ routs.post('/login',passport.authenticate('user',{failureRedirect : '/'}),userco
 routs.get('/cart/:productid/:userid',usercontroller.addtoCart);
 routs.get('/delet/:id',usercontroller.deletcart);
 routs.get('/cart/:id',passport.checkUserAthuntication,usercontroller.cart);
+routs.get('/google',
+  passport.authenticate('google', { scope: ['profile','email']}));
+
+routs.get('/google/callback', 
+  passport.authenticate('google', { failureRedirect: '/' }),
+  function(req, res) {
+    // Successful authentication, redirect home.
+   
+    res.redirect('/');
+  });
 module.exports = routs;
