@@ -22,4 +22,6 @@ routs.get('/google/callback',
    
     res.redirect('/');
   });
+  routs.post('/changeQuantity', passport.checkUserAthuntication, usercontroller.changeQuantity);
+  routs.get('/deletcartitem/:id',usercontroller.deletcartitem);
 module.exports = routs;

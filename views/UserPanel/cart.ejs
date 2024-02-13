@@ -23,13 +23,14 @@
                             <th scope="col">total</th>
                         </tr>
                     </thead>
+                    <% var length = cart.length%>
+                    <%var i=0;%>
                     <%for(var c of cart){%>
-                        <%var i=0;%>
                     <tbody>
                         <tr>
                             <td>
                                 <div class="col">
-                                    <h2 class="td-color"><a href="#" class="icon"><i class="ti-close"></i></a>
+                                    <h2 class="td-color"><a href="/deletcartitem/<%=c.id%>" class="icon"><i class="ti-close"></i></a>
                                     </h2>
                                 </div>
                             </td>
@@ -41,7 +42,7 @@
                                     <div class="col">
                                         <div class="qty-box">
                                             <div class="input-group">
-                                                <input type="text" name="quantity" min="1" max="6" class="form-control input-number" id="quantity<%=i%>" onchange="subtotalfind()" value="1">
+                                                <input type="text" name="quantity" min="1" max="6" class="form-control input-number" id="quantity<%=i%>" onchange="subtotalfind('<%=i%>','<%=c.id%>', '<%=length%>')" value="<%=c.quantity%>">
                                             </div>
                                         </div>
                                     </div>
@@ -51,18 +52,23 @@
                                 </div>
                             </td>
                             <td>
-                                <h2 id="price<%=i%>">₹<%=c.productId.price%></h2>
+                                <% var value = c.productId.price.replace(/,/g, '');
+                                var price = Number(value);
+                                %>
+                                <h2 id="price_display<%= i %>"><%= price %></h2>
                             </td>
                             <td>
                                 <div class="qty-box">
                                     <div class="input-group">
-                                        <input type="number" name="quantity" min="1" max="6" class="form-control input-number" id="quantity<%=i%>" onchange="subtotalfind()" value="1">
+                                        <input type="number" name="quantity" min="1" max="6" class="form-control input-number" id="quantity_input<%= i %>" onchange="subtotalfind('<%= i %>', '<%= c.id %>', '<%=length%>')" value="<%= c.quantity %>">
                                     </div>
                                 </div>
                             </td>
                             <td>
-                                <% var price =c.productId.price.replace(/,/g, '')%>
-                                <h2 class="td-color">₹<%=c.quantity * Number(price);%>.00</h2>
+                                <div class="d-flex justify-content-center align-items-center">
+                                    <span class="td-color" style="font-size: 23px;">₹</span>
+                                <h2 class="td-color" id="subtotal<%= i %>"><%= c.quantity * price %>.00</h2>
+                                </div>
                             </td>
                         </tr>
                     </tbody>
@@ -81,7 +87,10 @@
                                 <%}%>
                                 <td>total price :</td>
                                 <td>
-                                    <h2>₹<%=sub%>.00</h2>
+                                    <div class="d-flex justify-content-center align-items-center">
+                                        <span class="td-color" style="font-size: 23px;">₹</span>
+                                    <h2 class="td-color" id="GrandTotal"><%=sub%>.00</h2>
+                                    </div>
                                 </td>
                             </tr>
                         </tfoot>
@@ -95,12 +104,31 @@
         </div>
     </div>
 </section>
-<!-- <script>
-     function subtotalfind(){
-        var i=0;
-            var quantity = document.getElementById('quantity+i');
-            console.log(quantity);
-            i++;
+<script>
+    function subtotalfind(i, cid , cart) {
+        var quantity = parseInt(document.getElementById('quantity_input' + i).value);
+        var price = parseFloat(document.getElementById('price_display' + i).innerText.replace('₹', ''));
+        console.log('Quantity:', quantity);
+        console.log('Price:', price);
+        var total = quantity * price;
+        console.log('Total:', total.toFixed(2));
+        document.getElementById('subtotal' + i).innerHTML =total.toFixed(2);
+        var finalTotal =0;
+        for(var j=0; j<cart; j++){
+
+            finalTotal+=parseInt(document.getElementById('subtotal'+j).innerHTML);
+            console.log(finalTotal, j);
         }
-</script> -->
+		document.getElementById('GrandTotal').innerHTML = finalTotal.toFixed(2);
+        $.ajax({
+    	    url : "/changeQuantity",
+    	    method : 'post',
+    	    data : {
+			    quantity :quantity,
+			    cartId : cid
+    	    },
+    	    success : function(res){}
+        })
+    }
+</script>
 <%-include('footer')%>

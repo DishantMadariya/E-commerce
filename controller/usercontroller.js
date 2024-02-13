@@ -251,3 +251,28 @@ module.exports.cart = async(req,res)=>{
         return res.redirect('/');
     }
 }
+module.exports.changeQuantity = async(req,res)=>{
+    console.log(req.body)
+    try {
+        let change = await Cart.findByIdAndUpdate(req.body.cartId,{quantity :req.body.quantity });
+        if(change){
+            console.log('quantity Update Succesfully');
+        }
+    } catch (error) {
+        console.log(error);
+        return res.redirect('back');
+    }
+}
+module.exports.deletcartitem = async(req,res)=>{
+    try {
+        let delet = await Cart.findByIdAndDelete(req.params.id);
+        if(delet){
+            console.log('item delete succesfully');
+            return res.redirect('back');
+        }
+        
+    } catch (error) {
+        console.log(error);
+        return res.redirect('back');
+    }
+}
