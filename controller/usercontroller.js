@@ -252,7 +252,6 @@ module.exports.cart = async(req,res)=>{
     }
 }
 module.exports.changeQuantity = async(req,res)=>{
-    console.log(req.body)
     try {
         let change = await Cart.findByIdAndUpdate(req.body.cartId,{quantity :req.body.quantity });
         if(change){

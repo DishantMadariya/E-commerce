@@ -30,7 +30,8 @@
                         <tr>
                             <td>
                                 <div class="col">
-                                    <h2 class="td-color"><a href="/deletcartitem/<%=c.id%>" class="icon"><i class="ti-close"></i></a>
+                                    <h2>
+                                        <a href="/deletcartitem/<%=c.id%>" class="btn btn-solid text-white text-semibold">Remove Product</a>
                                     </h2>
                                 </div>
                             </td>
@@ -55,7 +56,7 @@
                                 <% var value = c.productId.price.replace(/,/g, '');
                                 var price = Number(value);
                                 %>
-                                <h2 id="price_display<%= i %>"><%= price %></h2>
+                                <h2 id="price_display<%= i %>">₹<%= price %></h2>
                             </td>
                             <td>
                                 <div class="qty-box">

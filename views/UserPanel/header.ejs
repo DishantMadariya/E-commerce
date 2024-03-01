@@ -446,10 +446,10 @@
                                                 <%for(var c of cartpendingData){%>
                                                 <li>
                                                     <div class="media">
-                                                        <a href="#"><img alt="" class="me-3"
+                                                        <a href="/cart/<%=locals.userdata.id%>"><img alt="" class="me-3"
                                                                 src="<%=c.productId.productImage%>"></a>
                                                         <div class="media-body">
-                                                            <a href="#">
+                                                            <a href="/cart/<%=locals.userdata.id%>">
                                                                 <h4><%=c.productId.title%></h4>
                                                             </a>
                                                             <h4><span><%=c.quantity%> x ₹ <%=c.productId.price%></span></h4>
