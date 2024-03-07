@@ -4,7 +4,7 @@ const app = express();
 const path = require('path');
 // const db = require('./config/mongoose');
 const mongoose = require('mongoose');
-const connectionString = `mongodb+srv://dishantpatel1446:Duggu1630@cluster0.xabloks.mongodb.net/eCommerce`;
+const connectionString = `mongodb+srv://dishantpatel1446:Duggu1630@cluster0.xabloks.mongodb.net/eCommerce`;~
 mongoose.connect(connectionString).then(() => {
     console.log('Database connected.');
 }).catch(err => {
