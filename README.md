@@ -33,7 +33,7 @@ This E-commerce project is aimed at providing a comprehensive platform for onlin
 To run this project locally, follow these steps:
 
 1. Clone the repository: `git clone https://github.com/DishantMadariya/E-commerce`
-2. Navigate to the project directory: `cd Ecommerce-Project`
+2. Navigate to the project directory: `cd Ecommerce-Project `
 3. Install dependencies: `npm install`
 
 ```javascript
