@@ -352,7 +352,8 @@ module.exports.payment = async (req, res) => {
             });
             return res.redirect('/');
         }
-    } catch (error) {
+    }
+    catch (error) {
         console.log(error);
         return res.redirect('back');
     }
