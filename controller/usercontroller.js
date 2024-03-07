@@ -6,6 +6,8 @@ const Type = require('../models/Type');
 const Product = require('../models/Product');
 const User = require('../models/User');
 const Cart = require('../models/Cart');
+const Order = require('../models/Order');
+var stripe = require('stripe')('sk_test_wFSjCKx4AW07JCc87b2fUwhH00zzjnRSJv');
 module.exports.home = async(req,res)=>{
     try {
         let Category = await Cate.find({isActive : true});
@@ -229,7 +231,7 @@ module.exports.cart = async(req,res)=>{
             var cartData = await Cart.find({userId : req.user.id, status : 'pending'}).countDocuments();
             var cartPendingData = await Cart.find({ userId: req.user.id, status: 'pending' }).populate('productId').exec();
         }
-        let findcart = await Cart.find({userId : req.params.id}).populate('productId').exec();
+        let findcart = await Cart.find({userId : req.params.id, status : 'pending'}).populate('productId').exec();
         if(findcart){
             return res.render('UserPanel/cart',{
                 cate : Category,
@@ -270,6 +272,86 @@ module.exports.deletcartitem = async(req,res)=>{
             return res.redirect('back');
         }
         
+    } catch (error) {
+        console.log(error);
+        return res.redirect('back');
+    }
+}
+module.exports.checkout = async(req,res)=>{
+    try {
+        let Category = await Cate.find({isActive : true});
+        let Subcategory = await Scate.find({isActive : true});
+        let Extracategory = await Ecate.find({isActive : true});
+        let product = await Product.find({isActive : true});
+        if(req.user){
+            var cartData = await Cart.find({userId : req.user.id, status : 'pending'}).countDocuments();
+            var cartPendingData = await Cart.find({ userId: req.user.id, status: 'pending' }).populate('productId').exec();
+        }
+        let findcart = await Cart.find({userId : req.user.id}).populate('productId').exec();
+        return res.render('UserPanel/checkout',{
+            cate : Category,
+            subcate : Subcategory,
+            ecate : Extracategory,
+            productData : product,
+            cartdata : cartData,
+            cartpendingData : cartPendingData,
+            cart : findcart,
+            key: "pk_test_5RzHjUwGCx0aBvQYxmMprB1200k4WeKjIa"
+        });
+    }
+    catch (error) {
+        console.log(error);
+        return res.redirect('back');
+    }
+}
+module.exports.payment = async (req, res) => {
+    try {
+        var cartPendingData = await Cart.find({ userId: req.user.id, status: 'pending' }).populate('productId').exec();
+        var sub = 0;
+        for (var i = 0; i < cartPendingData.length; i++) {
+            sub = sub + cartPendingData[i].quantity * cartPendingData[i].productId.price;
+        }
+
+        const customer = await stripe.customers.create({
+            email: req.body.stripeEmail,
+            source: req.body.stripeToken,
+            name: 'Gourav Hammad',
+            address: {
+                line1: 'TC 9/4 Old MES colony',
+                postal_code: '452331',
+                city: 'Indore',
+                state: 'Madhya Pradesh',
+                country: 'India',
+            }
+        });
+
+        const charge = await stripe.charges.create({
+            amount: sub,
+            description: 'Web Development Product',
+            currency: 'INR',
+            customer: customer.id
+        });
+
+        var cartid = [];
+        var proid = [];
+        cartPendingData.forEach((v, i) => {
+            cartid.push(v._id); // Use v._id instead of v.id
+            proid.push(v.productId._id); // Use v.productId._id
+        });
+
+        req.body.userId = req.user.id;
+        req.body.productId = proid;
+        req.body.status = "confirm";
+        req.body.cartId = cartid;
+
+        var or = await Order.create(req.body);
+
+        if (or) {
+            cartPendingData.forEach(async (v, i) => {
+                await Cart.findByIdAndUpdate(v.id, { status: "confirm" });
+            });
+            return res.redirect('/');
+        }
     } catch (error) {
         console.log(error);
         return res.redirect('back');

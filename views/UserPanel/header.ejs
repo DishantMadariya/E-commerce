@@ -275,6 +275,9 @@
                             <li class="onhover-dropdown mobile-account"> <i class="fa fa-user" aria-hidden="true"></i>
                                 <%if(locals.userdata){%>
                                     <%=locals.userdata.name%>
+                                    <ul class="onhover-show-div">
+                                        <li><a href="/logout">Log out</a></li>
+                                    </ul>
                                 <%} else{%>
                                     My Account
                                 <ul class="onhover-show-div">
@@ -411,25 +414,6 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </li>
-                                        <li class="onhover-div mobile-setting">
-                                            <div><img src="/assets/images/icon/setting.png"
-                                                    class="img-fluid blur-up lazyload" alt=""> <i
-                                                    class="ti-settings"></i></div>
-                                            <div class="show-div setting">
-                                                <h6>language</h6>
-                                                <ul>
-                                                    <li><a href="#">english</a></li>
-                                                    <li><a href="#">french</a></li>
-                                                </ul>
-                                                <h6>currency</h6>
-                                                <ul class="list-inline">
-                                                    <li><a href="#">euro</a></li>
-                                                    <li><a href="#">rupees</a></li>
-                                                    <li><a href="#">pound</a></li>
-                                                    <li><a href="#">doller</a></li>
-                                                </ul>
                                             </div>
                                         </li>
                                         <li class="onhover-div mobile-cart">
