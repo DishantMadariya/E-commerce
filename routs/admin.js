@@ -24,15 +24,15 @@ routs.get('/logout',passport.checkAthuntication,(req,res)=>{
     }
     return res.redirect('/admin/')
 })
-routs.get('/checkMail', passport.checkAthuntication,async(req,res)=>{
+routs.get('/checkMail',async(req,res)=>{
     return res.render('ForgotePassword/checkMail');
 })
-routs.post('/sendMail',passport.checkAthuntication,adminController.sendMail);
-routs.get('/verifyOtp',passport.checkAthuntication,(req,res)=>{
+routs.post('/sendMail',adminController.sendMail);
+routs.get('/verifyOtp',(req,res)=>{
     return res.render('ForgotePassword/verifyOtp');
 })
-routs.post('/setNewPass',passport.checkAthuntication,adminController.setNewPassword)
-routs.post('/verifyPass',passport.checkAthuntication,adminController.verifyPass);
+routs.post('/setNewPass',adminController.setNewPassword)
+routs.post('/verifyPass',adminController.verifyPass);
 routs.get('/profile',passport.checkAthuntication,(req,res)=>{
     if(req.user == undefined){
         return res.redirect('/admin/');
