@@ -46,7 +46,7 @@ This will start the server, and you can access the application in your web brows
 Both the admin backend and user frontend are served from the same codebase and accessible via:
 
 - User-facing storefront: `/`
-- Admin area: `/admin `
+- Admin area: `/admin`
 
 ## Admin Credentials
 
