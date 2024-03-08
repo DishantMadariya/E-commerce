@@ -6,7 +6,7 @@ const User = require('../models/User');
 passport.use(new GoogleStrategy({
     clientID: '263694405779-akdmn01fphdt1bairvvof6ibse8km08a.apps.googleusercontent.com',
     clientSecret: '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',
-    callbackURL: "https://e-commerce-63vv.onrender.com//google/callback"
+    callbackURL: "https://e-commerce-63vv.onrender.com/google/callback"
   },
   async function(accessToken, refreshToken, profile, cb) {
     let checkemail = await User.findOne({ email: profile.emails[0].value });
