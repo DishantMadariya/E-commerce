@@ -309,9 +309,8 @@ module.exports.payment = async (req, res) => {
         var cartPendingData = await Cart.find({ userId: req.user.id, status: 'pending' }).populate('productId').exec();
         var sub = 0;
         for (var i = 0; i < cartPendingData.length; i++) {
-            sub = sub + cartPendingData[i].quantity * cartPendingData[i].productId.price;
+            sub = sub + cartPendingData[i].quantity * Number(cartPendingData[i].productId.price.replace(/,/g, ''));
         }
-
         const customer = await stripe.customers.create({
             email: req.body.stripeEmail,
             source: req.body.stripeToken,
@@ -324,28 +323,23 @@ module.exports.payment = async (req, res) => {
                 country: 'India',
             }
         });
-
         const charge = await stripe.charges.create({
             amount: sub,
             description: 'Web Development Product',
             currency: 'INR',
             customer: customer.id
         });
-
         var cartid = [];
         var proid = [];
         cartPendingData.forEach((v, i) => {
-            cartid.push(v._id); // Use v._id instead of v.id
-            proid.push(v.productId._id); // Use v.productId._id
+            cartid.push(v._id);
+            proid.push(v.productId._id);
         });
-
         req.body.userId = req.user.id;
         req.body.productId = proid;
         req.body.status = "confirm";
         req.body.cartId = cartid;
-
         var or = await Order.create(req.body);
-
         if (or) {
             cartPendingData.forEach(async (v, i) => {
                 await Cart.findByIdAndUpdate(v.id, { status: "confirm" });

@@ -74,7 +74,8 @@
                                             <% var priceString = cart[i].productId.price.replace(/,/g, '');%>
                                             <% sub += cart[i].quantity * Number(priceString);%>
                                         <%}%>
-                                        <li>Subtotal <span class="count">₹ <%=sub%>.00</span></li>
+                                        <%const amount = parseInt(sub)%>
+                                        <li>Subtotal <span class="count">₹ <%=amount%>.00</span></li>
                                         <li>Shipping
                                             <div class="shipping">
                                                 <div class="shopping-option">
@@ -89,7 +90,7 @@
                                         </li>
                                     </ul>
                                     <ul class="total">
-                                        <li>Total <span class="count">₹<%=sub%>.00</span></li>
+                                        <li>Total <span class="count">₹<%=amount%>.00</span></li>
                                     </ul>
                                 </div>
                                 <div class="payment-box">
@@ -138,7 +139,7 @@
                        src="//checkout.stripe.com/v2/checkout.js"
                        class="stripe-button"
                        data-key="<%=key%>"
-                       data-amount="<%=sub*100%>"
+                       data-amount="<%=amount*100%>"
                        data-currency="inr"
                        data-name="Crafty Gourav"
                        data-description="Handmade Art and Craft Products"
